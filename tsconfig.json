@@ -21,6 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "cypress/e2e/1-getting-started/login.cy.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

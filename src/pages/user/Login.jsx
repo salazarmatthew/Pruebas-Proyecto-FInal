@@ -102,6 +102,7 @@ const Login = () => {
                 placeholder="Ingresa tu correo"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                data-testid="email" 
                 required
               />
             </Form.Group>
@@ -114,6 +115,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                data-testid="password" 
               />
             </Form.Group>
 
