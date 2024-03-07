@@ -5,6 +5,8 @@ import { Button, Form, Row, Col, Card, Toast } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Loading from "../../general/Loading";
 
+
+
 const AddItem = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -32,13 +34,19 @@ const AddItem = () => {
     setShowSuccessToast(false);
     setShowErrorToast(false);
 
+    if (!formData.name) {
+      setShowErrorToast(true);
+      setLoading(false);
+      return;
+    }
+  
     try {
       await addDoc(itemsCollectionRef, {
         ...formData,
         quantity: Number(formData.quantity),
         price: Number(formData.price),
       });
-
+  
       setFormData({
         name: "",
         quantity: 0,
@@ -46,7 +54,7 @@ const AddItem = () => {
         price: "",
         description: "",
       });
-
+  
       setShowSuccessToast(true);
       setTimeout(() => {
         navigate('/Home'); // Redirigir después de un breve tiempo
@@ -196,19 +204,19 @@ const AddItem = () => {
       </Toast>
 
       <Toast
-        show={showErrorToast}
-        onClose={() => setShowErrorToast(false)}
-        delay={5000}
-        autohide
-        bg="danger"
-        text="white"
-        className="position-fixed bottom-0 end-0 m-3"
-      >
-        <Toast.Header>
-          <strong className="me-auto">Error</strong>
-        </Toast.Header>
-        <Toast.Body>Ha ocurrido un error al agregar el artículo.</Toast.Body>
-      </Toast>
+  show={showErrorToast}
+  onClose={() => setShowErrorToast(false)}
+  delay={5000}
+  autohide
+  bg="danger"
+  text="white"
+  className="position-fixed bottom-0 end-0 m-3"
+>
+  <Toast.Header>
+    <strong className="me-auto">Error</strong>
+  </Toast.Header>
+  <Toast.Body>El nombre del producto es obligatorio</Toast.Body>
+</Toast>
     </div>
   );
 };
