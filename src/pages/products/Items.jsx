@@ -7,6 +7,14 @@ import { faEdit, faToggleOn, faToggleOff, faTrash } from "@fortawesome/free-soli
 
 const PAGE_SIZE = 10;
 
+export const saveItem = async (currentItem, fetchItems) => {
+  const itemRef = doc(db, "items", currentItem.id);
+  await updateDoc(itemRef, {
+    ...currentItem
+  });
+  fetchItems(); // Re-fetch items to update the UI
+};
+
 const ItemList = () => {
   const [items, setItems] = useState([]);
   const [lastVisible, setLastVisible] = useState(null);
@@ -64,13 +72,9 @@ const ItemList = () => {
     setShowEditModal(true);
   };
 
-  const saveItem = async () => {
-    const itemRef = doc(db, "items", currentItem.id);
-    await updateDoc(itemRef, {
-      ...currentItem
-    });
+  const handleSaveItem = () => {
+    saveItem(currentItem, fetchItems);
     setShowEditModal(false);
-    fetchItems(); // Re-fetch items to update the UI
   };
 
   const handleEditChange = (e) => {
@@ -192,7 +196,7 @@ const ItemList = () => {
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={saveItem}>
+          <Button variant="primary" onClick={handleSaveItem}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
